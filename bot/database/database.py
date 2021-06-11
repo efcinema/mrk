@@ -1,14 +1,21 @@
-import os
 import motor.motor_asyncio # pylint: disable=import-error
 from bot import DB_URI
 
-DB_NAME = os.environ.get("DB_NAME", "Adv_Auto_Filter")
+class Singleton(type):
+    __instances__ = {}
 
-class Database:
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls.__instances__:
+            cls.__instances__[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+
+        return cls.__instances__[cls]
+
+
+class Database(metaclass=Singleton):
 
     def __init__(self):
         self._client = motor.motor_asyncio.AsyncIOMotorClient(DB_URI)
-        self.db = self._client[DB_NAME]
+        self.db = self._client["Adv_Auto_Filter"]
         self.col = self.db["Main"]
         self.acol = self.db["Active_Chats"]
         self.fcol = self.db["Filter_Collection"]
@@ -494,4 +501,5 @@ class Database:
         A Funtion to count total filters of a group
         """
         return await self.fcol.count_documents({"group_id": group_id})
+
 
