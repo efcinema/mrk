@@ -952,9 +952,9 @@ async def cb_config(bot, update: CallbackQuery):
     mf_count = settings["configs"]["max_results"]
     mr_count = settings["configs"]["max_per_page"]
     show_invite = settings["configs"]["show_invite_link"]
-    pm_file_chat  = settings["configs"].get("pm_fchat", False)
+    pm_file_chat  = settings["configs"]["pm_fchat"]
     accuracy_point = settings["configs"].get("accuracy", 0.80)
-
+    
     text=f"<i><b>Configure Your <u><code>{chat_name}</code></u> Group's Filter Settings...</b></i>\n"
     
     text+=f"\n<i>{chat_name}</i> Current Settings:\n"
